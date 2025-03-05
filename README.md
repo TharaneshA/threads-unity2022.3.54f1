@@ -45,6 +45,21 @@ scripts/
 
 ## Team Collaboration Guidelines
 
+### Unity Teams Setup
+1. Create Unity ID accounts for all team members
+2. Enable Unity Teams in Unity Editor (Window > Unity Services)
+3. Sign in with Unity ID
+4. Create an organization or join existing one
+5. Enable Unity Collaborate for the project
+6. Invite team members via their Unity ID email
+
+### Scene Collaboration
+- Use Unity Scene Collaboration feature
+- Lock scenes when actively editing
+- Communicate scene changes in team chat
+- Regular scene merges and updates
+- Test scene transitions after merges
+
 ### Version Control
 - Use Git for version control
 - Create feature branches for new implementations
@@ -79,10 +94,11 @@ scripts/
 ## Setup Instructions
 
 1. Clone the repository
-2. Open project in Unity (Version: 2022.3 LTS)
-3. Import required assets
-4. Set up your development environment
-5. Follow the branching strategy
+2. Open project in Unity (Version: 2022.3.54f1)
+3. Sign in to Unity Teams
+4. Import required assets
+5. Set up your development environment
+6. Follow the branching strategy
 
 ## Educational Elements
 
@@ -116,7 +132,7 @@ scripts/
 
 ## Next Steps
 
-1. Set up Unity project and version control
+1. Set up Unity project and Unity Teams
 2. Create basic scenes and player movement
 3. Implement maze generation system
 4. Develop tailoring mechanics
