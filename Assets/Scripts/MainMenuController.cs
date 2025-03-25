@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
 
@@ -16,18 +16,15 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void StartGame()
     {
-        FadeController.instance.FadeToScene("Workshop");
+        SceneFader.instance.FadeToScene("Workshop"); // ✅ Load Workshop.unity
     }
 
     public void ShowCredits()
     {
-        FadeController.instance.FadeToScene("Credits");
+        SceneFader.instance.FadeToScene("Credits"); // ✅ Optional Credits scene
     }
 
 
-    
-
-    // Called when mouse hovers over the button
     public void OnPointerEnter(PointerEventData eventData)
     {
         StopAllCoroutines();
