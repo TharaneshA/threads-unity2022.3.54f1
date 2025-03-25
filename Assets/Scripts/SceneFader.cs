@@ -4,28 +4,43 @@ using UnityEngine.SceneManagement;
 
 public class SceneFader : MonoBehaviour
 {
+    public static SceneFader instance;
     public Image fadeImage;
     public float fadeDuration = 1f;
-
-    public static SceneFader instance;
+    private bool isFading = false;
 
     private void Awake()
     {
-        instance = this;
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
     {
-        StartCoroutine(FadeIn()); // ✅ Fade-in when scene loads
+        if (fadeImage != null)
+        {
+            StartCoroutine(FadeIn()); // Always fade-in when a new scene is loaded
+        }
     }
 
     public void FadeToScene(string sceneName)
     {
-        StartCoroutine(FadeOut(sceneName)); // ✅ Fade-out and switch scene
+        if (!isFading)
+        {
+            StartCoroutine(FadeOut(sceneName));
+        }
     }
 
     private System.Collections.IEnumerator FadeIn()
     {
+        isFading = true;
         float t = fadeDuration;
         while (t > 0)
         {
@@ -33,11 +48,13 @@ public class SceneFader : MonoBehaviour
             fadeImage.color = new Color(0, 0, 0, t / fadeDuration);
             yield return null;
         }
-        fadeImage.color = new Color(0, 0, 0, 0); // ✅ Fully transparent
+        fadeImage.color = new Color(0, 0, 0, 0); // Fully transparent
+        isFading = false;
     }
 
     private System.Collections.IEnumerator FadeOut(string sceneName)
     {
+        isFading = true;
         float t = 0;
         while (t < fadeDuration)
         {
@@ -45,7 +62,12 @@ public class SceneFader : MonoBehaviour
             fadeImage.color = new Color(0, 0, 0, t / fadeDuration);
             yield return null;
         }
-        fadeImage.color = new Color(0, 0, 0, 1); // ✅ Fully black before load
+        fadeImage.color = new Color(0, 0, 0, 1); // Fully black before scene load
+
         SceneManager.LoadScene(sceneName);
+
+        // Ensure fade-in starts after scene is loaded
+        yield return new WaitForSeconds(0.1f);
+        StartCoroutine(FadeIn()); // Trigger fade-in after loading
     }
 }

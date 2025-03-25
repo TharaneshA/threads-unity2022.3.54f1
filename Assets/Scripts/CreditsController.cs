@@ -13,13 +13,8 @@ public class CreditsController : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        if (SceneFader.instance != null)
-        {
-            SceneFader.instance.FadeToScene("MainMenu");
-        }
-        else
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
+     
+        SceneManager.LoadScene("MainMenu");
+
     }
 }
