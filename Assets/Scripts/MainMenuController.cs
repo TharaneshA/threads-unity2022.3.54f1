@@ -8,34 +8,36 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
     public float animationSpeed = 10f; // Speed of the scale animation
     private Vector3 originalScale;
 
-    // Start and Credits button references
+    void Start()
+    {
+        // Store original scale of the button
+        originalScale = transform.localScale;
+    }
+
     public void StartGame()
     {
-        SceneManager.LoadScene("Workshop"); // Load Workshop.unity
+        FadeController.instance.FadeToScene("Workshop");
     }
 
     public void ShowCredits()
     {
-        SceneManager.LoadScene("Credits"); // Load Credits.unity
+        FadeController.instance.FadeToScene("Credits");
     }
 
-    void Start()
-    {
-        // Store original scale when the script starts
-        originalScale = transform.localScale;
-    }
 
-    // When mouse hovers over the button
+    
+
+    // Called when mouse hovers over the button
     public void OnPointerEnter(PointerEventData eventData)
     {
-        StopAllCoroutines(); // Stop any ongoing scaling coroutine
+        StopAllCoroutines();
         StartCoroutine(ScaleButton(transform, originalScale * hoverScale, 0.1f));
     }
 
-    // When mouse exits the button
+    // Called when mouse exits the button
     public void OnPointerExit(PointerEventData eventData)
     {
-        StopAllCoroutines(); // Stop any ongoing scaling coroutine
+        StopAllCoroutines();
         StartCoroutine(ScaleButton(transform, originalScale, 0.1f));
     }
 
@@ -52,6 +54,6 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
             yield return null;
         }
 
-        button.localScale = targetScale; // Set final scale
+        button.localScale = targetScale;
     }
 }
