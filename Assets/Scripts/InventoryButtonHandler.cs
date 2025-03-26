@@ -3,14 +3,16 @@ using UnityEngine.UI;
 
 public class InventoryButtonHandler : MonoBehaviour
 {
-    public Sprite fabricSprite;  // Assign the fabric sprite in Inspector
+    public Sprite fabricSprite;
     private FabricUseHandler useHandler;
 
     private void Start()
     {
         useHandler = FindObjectOfType<FabricUseHandler>();
         if (useHandler == null)
+        {
             Debug.LogError("❌ FabricUseHandler not found in the scene!");
+        }
     }
 
     public void OnUseButtonClick()
