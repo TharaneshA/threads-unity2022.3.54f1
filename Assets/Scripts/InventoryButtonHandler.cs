@@ -10,9 +10,7 @@ public class InventoryButtonHandler : MonoBehaviour
     {
         useHandler = FindObjectOfType<FabricUseHandler>();
         if (useHandler == null)
-        {
             Debug.LogError("❌ FabricUseHandler not found in the scene!");
-        }
     }
 
     public void OnUseButtonClick()
@@ -23,7 +21,6 @@ public class InventoryButtonHandler : MonoBehaviour
             return;
         }
 
-        Debug.Log("✅ Use button clicked! Sending sprite to FabricUseHandler.");
         useHandler.OnUseButtonPressed(fabricSprite);
     }
 }
