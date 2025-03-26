@@ -811,7 +811,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1001 &1484504135
+--- !u!1001 &1540482082
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -821,7 +821,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2271723055741497744, guid: 316268fb563419241ac4e51e63644df5, type: 3}
       propertyPath: m_Name
-      value: FadeCanvas 1
+      value: FadeCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 5767189115681986737, guid: 316268fb563419241ac4e51e63644df5, type: 3}
       propertyPath: m_Pivot.x
@@ -902,6 +902,22 @@ PrefabInstance:
     - target: {fileID: 5767189115681986737, guid: 316268fb563419241ac4e51e63644df5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899326440016002886, guid: 316268fb563419241ac4e51e63644df5, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899326440016002886, guid: 316268fb563419241ac4e51e63644df5, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899326440016002886, guid: 316268fb563419241ac4e51e63644df5, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899326440016002886, guid: 316268fb563419241ac4e51e63644df5, type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1347,4 +1363,4 @@ SceneRoots:
   - {fileID: 243207227}
   - {fileID: 474906850}
   - {fileID: 1814800028}
-  - {fileID: 1484504135}
+  - {fileID: 1540482082}
