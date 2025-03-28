@@ -3,8 +3,11 @@ using UnityEngine.UI;
 
 public class FabricUseHandler : MonoBehaviour
 {
-    public GameObject fabricPrefab;
+    public GameObject fabricPrefab;   // Fabric prefab to instantiate
+    public GameObject overlayPrefab;  // T-shirt outline prefab
     private GameObject currentFabricInstance;
+
+    public Vector2 overlaySize = new Vector2(300f, 300f);  // Default overlay size
 
     public void OnUseButtonPressed(Sprite fabricSprite)
     {
@@ -19,7 +22,7 @@ public class FabricUseHandler : MonoBehaviour
             return;
         }
 
-        // Instantiate fabric UI
+        // ✅ Instantiate fabric UI
         currentFabricInstance = Instantiate(fabricPrefab, transform);
         Image fabricImage = currentFabricInstance.GetComponent<Image>();
 
@@ -40,5 +43,18 @@ public class FabricUseHandler : MonoBehaviour
         }
 
         rt.anchoredPosition = Vector2.zero;
+
+        // ✅ Add TShirtOverlayHandler dynamically with overlay size
+        AddOverlayHandler(currentFabricInstance);
+    }
+
+    private void AddOverlayHandler(GameObject fabricInstance)
+    {
+        if (fabricInstance.GetComponent<TShirtOverlayHandler>() == null)
+        {
+            TShirtOverlayHandler overlayHandler = fabricInstance.AddComponent<TShirtOverlayHandler>();
+            overlayHandler.overlayPrefab = overlayPrefab;
+            overlayHandler.overlaySize = overlaySize;  // Pass size to handler
+        }
     }
 }

@@ -6,31 +6,40 @@ public class DraggableFabric : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     private RectTransform rectTransform;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
-    private Vector2 originalPosition;
-    private bool isSnapped = false;
+    private TShirtOverlayHandler overlayHandler;
 
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
+        overlayHandler = GetComponent<TShirtOverlayHandler>();
 
         if (canvasGroup == null)
         {
-            Debug.LogError("CanvasGroup missing on fabricPrefab! Adding one.");
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        originalPosition = rectTransform.anchoredPosition;
+        if (overlayHandler != null && !overlayHandler.IsFabricDraggable())
+        {
+            Debug.LogWarning("⚠️ Fabric cannot be dragged during tracing.");
+            return;
+        }
+
         canvasGroup.alpha = 0.8f;
         canvasGroup.blocksRaycasts = false;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (overlayHandler != null && !overlayHandler.IsFabricDraggable())
+        {
+            return;
+        }
+
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
@@ -38,29 +47,5 @@ public class DraggableFabric : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-
-        GameObject dropZone = GameObject.Find("TailoringDropZone");
-        if (dropZone != null)
-        {
-            RectTransform dropZoneRT = dropZone.GetComponent<RectTransform>();
-            if (RectTransformUtility.RectangleContainsScreenPoint(dropZoneRT, Input.mousePosition))
-            {
-                rectTransform.anchoredPosition = dropZoneRT.anchoredPosition;
-                isSnapped = true;
-                Debug.Log("🎯 Fabric placed in drop zone!");
-            }
-            else if (isSnapped)
-            {
-                rectTransform.anchoredPosition = dropZoneRT.anchoredPosition;
-            }
-            else
-            {
-                rectTransform.anchoredPosition = originalPosition;
-            }
-        }
-        else
-        {
-            Debug.LogError("❌ DropZone not found!");
-        }
     }
 }

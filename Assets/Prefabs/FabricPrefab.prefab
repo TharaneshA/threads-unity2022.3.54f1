@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7503729999205047174}
   - component: {fileID: 8313219593742881305}
   - component: {fileID: -4437648806577997528}
+  - component: {fileID: 394338108586663469}
   m_Layer: 5
   m_Name: FabricPrefab
   m_TagString: Untagged
@@ -36,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -638.6538, y: 383.38367}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -470.8577, y: 295.45886}
+  m_SizeDelta: {x: 595.7046, y: 344.4327}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7074637000470512622
 CanvasRenderer:
@@ -101,3 +102,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb80e9f5cf73334b94e867afa3a2785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &394338108586663469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7163752404967237072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040c4181ce14c724b883d076fad0feb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  overlayPrefab: {fileID: 5538837342896779028, guid: ee8f21ab750083d48884aac3fa788a42, type: 3}
+  overlaySize: {x: 400, y: 400}
+  tShirtFinalSprite: {fileID: 21300000, guid: 4ec86e31d31fe74488cf8dfc64484f75, type: 3}
