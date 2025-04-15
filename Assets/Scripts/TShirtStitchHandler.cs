@@ -19,10 +19,12 @@ public class TShirtStitchHandler : MonoBehaviour, IPointerClickHandler
             ShowStitchOverlay();
         }
     }
+
     private void Start()
     {
         Debug.Log("🧵 TShirtStitchHandler is active on: " + gameObject.name);
     }
+
     private void LockTShirt()
     {
         DraggableFabric draggable = GetComponent<DraggableFabric>();
@@ -70,5 +72,9 @@ public class TShirtStitchHandler : MonoBehaviour, IPointerClickHandler
             drag.SetDragEnabled(true);
             Debug.Log("🔓 T-shirt is now draggable again.");
         }
+
+        // ✅ Add tag to mark it as ready for selling
+        gameObject.tag = "FinalTShirt";
+        Debug.Log("🏷️ FinalTShirt tag assigned.");
     }
 }

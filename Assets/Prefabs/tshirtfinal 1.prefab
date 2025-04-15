@@ -11,9 +11,12 @@ GameObject:
   - component: {fileID: 7856034381610856731}
   - component: {fileID: 4622258023338947422}
   - component: {fileID: 7594998909248412698}
+  - component: {fileID: -4344491483235754345}
+  - component: {fileID: -5214916920077481429}
+  - component: {fileID: 3385890886761729354}
   m_Layer: 5
   m_Name: tshirtfinal 1
-  m_TagString: Untagged
+  m_TagString: FinalTShirt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,3 +78,39 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &-4344491483235754345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498915143958084929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6201043adcb91048b620ecf066c530d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5214916920077481429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498915143958084929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d599e00680e927b489467561734e114a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!225 &3385890886761729354
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498915143958084929}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
