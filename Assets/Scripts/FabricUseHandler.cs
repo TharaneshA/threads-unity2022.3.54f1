@@ -3,35 +3,28 @@ using UnityEngine.UI;
 
 public class FabricUseHandler : MonoBehaviour
 {
-    public GameObject fabricPrefab;  // Prefab for fabric
-    public GameObject chainButton;  // Chain button reference
-    public GameObject dropZone;  // DropZone reference
-    public GameObject overlayPrefab;  // T-shirt overlay prefab
-    public Sprite tshirtSprite;  // T-shirt sprite after tracing
+    public GameObject fabricPrefab;  // Prefab for plain fabric
+    public GameObject chainButton;   // Chain button reference
+    public GameObject dropZone;      // DropZone reference
+    public GameObject overlayPrefab; // T-shirt overlay prefab
+    public GameObject tshirtPrefab;  // FINAL T-shirt prefab (with stitch logic)
+
     private GameObject currentFabricInstance;
     private GameObject overlayInstance;
     private RectTransform dropZoneRect;
-    private bool isTracingActive = false;
 
     private void Start()
     {
         if (dropZone != null)
-        {
             dropZoneRect = dropZone.GetComponent<RectTransform>();
-        }
         else
-        {
             Debug.LogError("❌ DropZone not assigned in the Inspector!");
-        }
     }
 
-    // ✅ Display fabric when clicking UseButton
     public void OnUseButtonPressed(Sprite fabricSprite)
     {
         if (currentFabricInstance != null)
-        {
             Destroy(currentFabricInstance);
-        }
 
         if (fabricPrefab == null || dropZone == null)
         {
@@ -39,7 +32,6 @@ public class FabricUseHandler : MonoBehaviour
             return;
         }
 
-        // ✅ Instantiate fabric inside DropZone
         currentFabricInstance = Instantiate(fabricPrefab, dropZone.transform);
         Image fabricImage = currentFabricInstance.GetComponent<Image>();
 
@@ -52,23 +44,16 @@ public class FabricUseHandler : MonoBehaviour
         fabricImage.sprite = fabricSprite;
         fabricImage.raycastTarget = true;
 
-        // ✅ Properly center and snap the fabric to DropZone
         RectTransform fabricRT = currentFabricInstance.GetComponent<RectTransform>();
-        if (fabricRT != null)
+        if (fabricRT != null && dropZoneRect != null)
         {
             fabricRT.anchoredPosition = Vector2.zero;
-            fabricRT.SetAsLastSibling();  // Ensure fabric is above other UI elements
-        }
-        else
-        {
-            Debug.LogError("❌ No RectTransform found on fabricPrefab!");
+            fabricRT.SetAsLastSibling();
         }
 
-        // ✅ Trigger chain disable
         TriggerChainDisable();
     }
 
-    // ✅ Auto Animate Disable for Chain Button
     private void TriggerChainDisable()
     {
         Transform chainTransform = transform.root.Find("chain");
@@ -80,26 +65,16 @@ public class FabricUseHandler : MonoBehaviour
                 Button btn = chainButtonTransform.GetComponent<Button>();
                 if (btn != null)
                 {
-                    btn.onClick.Invoke();  // ✅ Auto Animate transition
+                    btn.onClick.Invoke();
                     Debug.Log("🔒 Chain disabled with auto-animate.");
                 }
-                else
-                {
-                    Debug.LogError("❌ No Button component found on Chain/Button!");
-                }
+                else Debug.LogError("❌ No Button component on Chain/Button!");
             }
-            else
-            {
-                Debug.LogError("❌ Button not found under Chain!");
-            }
+            else Debug.LogError("❌ Button not found under Chain!");
         }
-        else
-        {
-            Debug.LogError("❌ Chain not found! Check root object.");
-        }
+        else Debug.LogError("❌ Chain not found! Check root object.");
     }
 
-    // ✅ On First Click with Scissors, Show Overlay and Lock Fabric
     public void OnScissorsClick()
     {
         if (currentFabricInstance == null || overlayPrefab == null) return;
@@ -112,7 +87,7 @@ public class FabricUseHandler : MonoBehaviour
             if (overlayRT != null)
             {
                 overlayRT.anchoredPosition = Vector2.zero;
-                overlayRT.SetAsLastSibling();  // ✅ Bring overlay to front
+                overlayRT.SetAsLastSibling();
                 Debug.Log("✨ Overlay added for tracing.");
             }
             else
@@ -121,10 +96,9 @@ public class FabricUseHandler : MonoBehaviour
             }
         }
 
-        LockFabricDuringTracing();  // ✅ Lock fabric immediately
+        LockFabricDuringTracing();
     }
 
-    // ✅ Lock Fabric to Prevent Dragging
     public void LockFabricDuringTracing()
     {
         if (currentFabricInstance == null) return;
@@ -132,36 +106,37 @@ public class FabricUseHandler : MonoBehaviour
         DraggableFabric draggable = currentFabricInstance.GetComponent<DraggableFabric>();
         if (draggable != null)
         {
-            draggable.SetDragEnabled(false);  // Disable drag immediately
+            draggable.SetDragEnabled(false);
             Debug.Log("🔒 Fabric locked for tracing.");
         }
     }
 
-    // ✅ Unlock and Change to T-Shirt After Tracing
-    public void OnTracingComplete()
+    public void EnableDragAfterTracing(GameObject target)
     {
-        if (currentFabricInstance == null || tshirtSprite == null) return;
-
-        Image fabricImage = currentFabricInstance.GetComponent<Image>();
-        if (fabricImage != null)
-        {
-            fabricImage.sprite = tshirtSprite;  // ✅ Transform to T-shirt sprite
-            Debug.Log("👕 Fabric transformed into T-shirt!");
-        }
-
-        EnableDragAfterTracing();  // ✅ Re-enable drag after tracing
-    }
-
-    public void EnableDragAfterTracing()
-    {
-        if (currentFabricInstance == null) return;
-
-        DraggableFabric draggable = currentFabricInstance.GetComponent<DraggableFabric>();
+        DraggableFabric draggable = target.GetComponent<DraggableFabric>();
         if (draggable != null)
         {
-            draggable.SetDragEnabled(true);  // ✅ Dragging re-enabled
-            Debug.Log("✅ Dragging re-enabled after tracing.");
+            draggable.SetDragEnabled(true);
+            Debug.Log("✅ Dragging re-enabled.");
         }
+    }
+
+    public void OnTracingComplete()
+    {
+        if (currentFabricInstance == null || tshirtPrefab == null) return;
+
+        Destroy(currentFabricInstance);
+
+        GameObject tshirt = Instantiate(tshirtPrefab, dropZone.transform);
+        RectTransform tshirtRT = tshirt.GetComponent<RectTransform>();
+
+        if (tshirtRT != null && dropZoneRect != null)
+        {
+            tshirtRT.anchoredPosition = Vector2.zero;
+            tshirtRT.SetAsLastSibling();
+        }
+
+        Debug.Log("👕 Final T-shirt prefab spawned.");
     }
 
     public void ReturnToDropZone()
@@ -171,7 +146,7 @@ public class FabricUseHandler : MonoBehaviour
         RectTransform fabricRT = currentFabricInstance.GetComponent<RectTransform>();
         if (fabricRT != null)
         {
-            fabricRT.anchoredPosition = Vector2.zero;  // ✅ Snap fabric to center of DropZone
+            fabricRT.anchoredPosition = Vector2.zero;
             Debug.Log("📍 Fabric snapped back to DropZone.");
         }
     }

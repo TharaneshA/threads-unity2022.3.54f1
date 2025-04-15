@@ -3,7 +3,7 @@
 public class TShirtTracer : MonoBehaviour
 {
     public FabricUseHandler fabricHandler;
-    public float tracingThreshold = 0.6f;  // 60% completion to switch
+    public float tracingThreshold = 0.6f;  
     private float tracedLength = 0f;
     private float totalLength = 0f;
     private bool isTracingActive = false;
