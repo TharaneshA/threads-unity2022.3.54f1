@@ -3,7 +3,10 @@ guid: 040c4181ce14c724b883d076fad0feb6
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - overlayPrefab: {instanceID: 0}
+  - tShirtFinalSprite: {fileID: 21300000, guid: 7f4f3f99fab03c84fac347c5cab6abbb, type: 3}
+  - dottedLineMaterial: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
