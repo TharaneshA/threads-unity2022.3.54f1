@@ -15,19 +15,19 @@ public class DraggableFabric : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if (!isDragEnabled) return;
+        if (!isDragEnabled || TShirtOverlayHandler.IsTracingNow) return; // Block drag during tracing
         Debug.Log("🔄 Drag started.");
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!isDragEnabled) return;
+        if (!isDragEnabled || TShirtOverlayHandler.IsTracingNow) return; // Block drag during tracing
         rectTransform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isDragEnabled) return;
+        if (!isDragEnabled || TShirtOverlayHandler.IsTracingNow) return; // Block drag during tracing
 
         GameObject dropZone = GameObject.Find("DropZone");
         if (dropZone != null)
@@ -51,11 +51,9 @@ public class DraggableFabric : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         isDragEnabled = enabled;
         Debug.Log(enabled ? "✅ Dragging enabled." : "❌ Dragging disabled.");
 
-        // Lock fabric in place if drag is disabled
         if (!enabled && rectTransform != null)
         {
-            rectTransform.anchoredPosition = Vector2.zero;  // Lock fabric in DropZone
+            rectTransform.anchoredPosition = Vector2.zero;  // Lock in DropZone
         }
     }
-
 }

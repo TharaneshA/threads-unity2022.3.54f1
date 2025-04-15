@@ -4,20 +4,24 @@ using UnityEngine.EventSystems;
 
 public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
 {
-    public GameObject overlayPrefab;  // T-shirt outline prefab
-    public Vector2 overlaySize = new Vector2(300f, 300f);  // Default size
-    public Sprite tShirtFinalSprite;  // Final T-shirt sprite after tracing
+    public static bool IsTracingNow = false; // 🔒 Used by DraggableFabric to block dragging
+
+    public GameObject overlayPrefab;
+    public Vector2 overlaySize = new Vector2(300f, 300f);
+    public Sprite tShirtFinalSprite;
+
     private GameObject overlayInstance;
     private bool isTracingActive = false;
     private float traceProgress = 0f;
     private bool isFabricDraggable = true;
+    private bool outlineSpawned = false;
+    private bool mouseHeld = false;
 
     private void Start()
     {
         if (overlayPrefab == null)
         {
             Debug.LogError("❌ Overlay prefab is not assigned!");
-            return;
         }
     }
 
@@ -25,8 +29,11 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
     {
         if (ScissorsButtonHandler.IsScissorsCursorActive)
         {
-            Debug.Log("✂️ Scissors clicked on fabric. Showing overlay.");
-            ShowOverlay();
+            if (!outlineSpawned)
+            {
+                Debug.Log("✂️ First scissor click - locking fabric and showing outline.");
+                ShowOverlay();
+            }
         }
     }
 
@@ -40,30 +47,48 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
 
         overlayInstance = Instantiate(overlayPrefab, transform);
         RectTransform rt = overlayInstance.GetComponent<RectTransform>();
-
         if (rt != null)
         {
-            rt.sizeDelta = overlaySize;  // Set overlay size dynamically
+            rt.sizeDelta = overlaySize;
             rt.anchoredPosition = Vector2.zero;
         }
 
         isTracingActive = true;
+        IsTracingNow = true;
         isFabricDraggable = false;
-        Debug.Log("✅ Overlay displayed. Tracing started!");
+        outlineSpawned = true;
+        Debug.Log("✅ Overlay spawned and tracing activated.");
     }
 
     private void Update()
     {
-        if (isTracingActive)
+        if (isTracingActive && overlayInstance != null)
         {
-            TraceFabricOutline();
+            if (Input.GetMouseButtonDown(0))
+            {
+                mouseHeld = true;
+                Debug.Log("✏️ Tracing started...");
+            }
+
+            if (mouseHeld && Input.GetMouseButton(0))
+            {
+                TraceFabricOutline();
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                mouseHeld = false;
+                Debug.Log("🛑 Mouse released. Stopping tracing input.");
+            }
         }
     }
 
     private void TraceFabricOutline()
     {
-        // Simulate tracing progress (for now, increase over time)
-        traceProgress += Time.deltaTime * 10f;  // Adjust speed if needed
+        traceProgress += Time.deltaTime * 10f;
+
+        // Here, in the future, we can check if cursor is within polygon collider
+        // for a more accurate tracing simulation
 
         if (traceProgress >= 60f)
         {
@@ -74,13 +99,13 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
     private void CompleteTracing()
     {
         isTracingActive = false;
+        IsTracingNow = false;
 
         if (overlayInstance != null)
         {
             Destroy(overlayInstance);
         }
 
-        // ✅ Change to TShirtFinal sprite after tracing
         Image fabricImage = GetComponent<Image>();
         if (fabricImage != null && tShirtFinalSprite != null)
         {
@@ -88,7 +113,8 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
             Debug.Log("🎉 T-shirt fabric traced successfully!");
         }
 
-        isFabricDraggable = true;  // Re-enable drag after cutting
+        isFabricDraggable = true; // Now fabric can be dragged again
+        Debug.Log("✅ Tracing completed. Fabric unlocked.");
     }
 
     public bool IsFabricDraggable()
