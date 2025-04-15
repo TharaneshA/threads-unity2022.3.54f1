@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -470.8577, y: 295.45886}
-  m_SizeDelta: {x: 595.7046, y: 344.4327}
+  m_AnchoredPosition: {x: -444, y: 278}
+  m_SizeDelta: {x: 724.1711, y: 422.766}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7074637000470512622
 CanvasRenderer:
@@ -117,5 +117,3 @@ MonoBehaviour:
   overlayPrefab: {fileID: 840287184564758134, guid: d2e30b376dd65d441a31b5a230527a13, type: 3}
   overlaySize: {x: 400, y: 400}
   tShirtFinalSprite: {fileID: 21300000, guid: 4ec86e31d31fe74488cf8dfc64484f75, type: 3}
-  dottedLineMaterial: {fileID: 2100000, guid: 1291abe2ceddd1b45bdb9d8532710338, type: 2}
-  requiredTraceDistance: 450
