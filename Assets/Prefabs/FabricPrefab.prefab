@@ -117,3 +117,5 @@ MonoBehaviour:
   overlayPrefab: {fileID: 840287184564758134, guid: d2e30b376dd65d441a31b5a230527a13, type: 3}
   overlaySize: {x: 400, y: 400}
   tShirtFinalSprite: {fileID: 21300000, guid: 4ec86e31d31fe74488cf8dfc64484f75, type: 3}
+  dottedLineMaterial: {fileID: 0}
+  requiredTraceDistance: 350

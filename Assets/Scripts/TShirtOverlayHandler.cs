@@ -10,22 +10,23 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
     public Vector2 overlaySize = new Vector2(300f, 300f);
     public Sprite tShirtFinalSprite;
 
+    public Material dottedLineMaterial; // 🔸 Assign a dotted material in inspector
+    public float requiredTraceDistance = 300f; // 🔸 Set how long user must trace
+
     private GameObject overlayInstance;
-    private PolygonCollider2D outlineCollider;
+    private LineRenderer traceLine;
     private bool isTracingActive = false;
     private bool mouseHeld = false;
-
-    private float totalTraceTime = 0f;
-    private float insideOutlineTime = 0f;
-
     private bool outlineSpawned = false;
+
+    private float tracedDistance = 0f;
+    private Vector3 lastPoint;
+    private int pointCount = 0;
 
     private void Start()
     {
         if (overlayPrefab == null)
-        {
             Debug.LogError("❌ Overlay prefab not assigned!");
-        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -49,114 +50,112 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
             rt.anchoredPosition = Vector2.zero;
         }
 
-        outlineCollider = overlayInstance.GetComponent<PolygonCollider2D>();
-        if (outlineCollider == null)
-        {
-            Debug.LogError("❌ PolygonCollider2D missing from outline prefab.");
-        }
+        traceLine = overlayInstance.AddComponent<LineRenderer>();
+        traceLine.material = dottedLineMaterial;
+        traceLine.textureMode = LineTextureMode.Tile;
+        traceLine.startWidth = 0.05f;
+        traceLine.endWidth = 0.05f;
+        traceLine.numCapVertices = 2;
+        traceLine.alignment = LineAlignment.TransformZ;
+        traceLine.positionCount = 0;
 
         isTracingActive = true;
         IsTracingNow = true;
         outlineSpawned = true;
 
-        Debug.Log("✅ Overlay & tracing mode activated.");
+        Debug.Log("✅ Overlay and dotted tracing enabled.");
     }
 
     private void Update()
     {
-        if (!isTracingActive || outlineCollider == null) return;
+        if (!isTracingActive || overlayInstance == null) return;
 
         if (Input.GetMouseButtonDown(0))
         {
             mouseHeld = true;
-            Debug.Log("🖱️ Tracing started...");
+            tracedDistance = 0f;
+            pointCount = 0;
+            traceLine.positionCount = 0;
+
+            lastPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            lastPoint.z = 0;
+            AddPointToTrace(lastPoint);
         }
 
         if (mouseHeld && Input.GetMouseButton(0))
         {
-            TrackTracingAccuracy();
+            Vector3 current = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            current.z = 0;
+
+            float dist = Vector3.Distance(lastPoint, current);
+            if (dist > 0.05f)
+            {
+                tracedDistance += dist;
+                AddPointToTrace(current);
+                lastPoint = current;
+            }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             mouseHeld = false;
-            Debug.Log("🛑 Mouse released. Accuracy check incoming.");
-            CheckTracingResult();
+            Debug.Log($"📏 Total Traced Distance: {tracedDistance:F1}");
+
+            if (tracedDistance >= requiredTraceDistance)
+            {
+                CompleteTracing();
+            }
+            else
+            {
+                Debug.LogWarning("❌ Tracing too short. Try again.");
+                ResetTracing();
+            }
         }
     }
 
-    private void TrackTracingAccuracy()
+    private void AddPointToTrace(Vector3 point)
     {
-        totalTraceTime += Time.deltaTime;
-
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        if (outlineCollider.OverlapPoint(mousePos))
-        {   
-            
-            insideOutlineTime += Time.deltaTime;
-        }
-    }
-
-    private void CheckTracingResult()
-    {
-        if (totalTraceTime <= 0f) return;
-
-        float accuracy = insideOutlineTime / totalTraceTime;
-        Debug.Log($"📊 Tracing Accuracy: {accuracy:P1}");
-
-        if (accuracy >= 0.0f)
-        {   
-            Debug.Log("✅ Accuracy sufficient, completing tracing.");
-            CompleteTracing();
-        }
-        else
-        {   
-            Debug.LogWarning("❌ Tracing accuracy too low. Try again.");
-            ResetTracing();
-        }
+        pointCount++;
+        traceLine.positionCount = pointCount;
+        traceLine.SetPosition(pointCount - 1, point);
     }
 
     private void CompleteTracing()
-{
-    isTracingActive = false;
-    IsTracingNow = false;
+    {
+        isTracingActive = false;
+        IsTracingNow = false;
 
-    if (overlayInstance != null)
-    {
-        Destroy(overlayInstance);
-    }
-
-    // Find the FabricUseHandler and call its OnTracingComplete method
-    FabricUseHandler fabricHandler = FindObjectOfType<FabricUseHandler>();
-    if (fabricHandler != null)
-    {
-        fabricHandler.OnTracingComplete();
-        Debug.Log("🎉 Notified FabricUseHandler to spawn final t-shirt.");
-    }
-    else
-    {
-        Debug.LogError("❌ Cannot find FabricUseHandler in the scene!");
-        
-        // Fallback to the original behavior if FabricUseHandler cannot be found
-        Image fabricImage = GetComponent<Image>();
-        if (fabricImage != null && tShirtFinalSprite != null)
+        if (overlayInstance != null)
         {
-            fabricImage.sprite = tShirtFinalSprite;
-            Debug.Log("🎉 T-shirt updated after accurate trace (fallback method).");
+            Destroy(overlayInstance);
+        }
+
+        // Find the FabricUseHandler and call its OnTracingComplete method
+        FabricUseHandler fabricHandler = FindObjectOfType<FabricUseHandler>();
+        if (fabricHandler != null)
+        {
+            fabricHandler.OnTracingComplete();
+            Debug.Log("🎉 Notified FabricUseHandler to spawn final t-shirt.");
+        }
+        else
+        {
+            Debug.LogError("❌ Cannot find FabricUseHandler in the scene!");
+
+            // Fallback to the original behavior if FabricUseHandler cannot be found
+            Image fabricImage = GetComponent<Image>();
+            if (fabricImage != null && tShirtFinalSprite != null)
+            {
+                fabricImage.sprite = tShirtFinalSprite;
+                Debug.Log("🎉 T-shirt updated after accurate trace (fallback method).");
+            }
         }
     }
-
-    // Reset stats for future tries
-    totalTraceTime = 0f;
-    insideOutlineTime = 0f;
-}
-
     private void ResetTracing()
     {
-        // Reset stats
-        totalTraceTime = 0f;
-        insideOutlineTime = 0f;
-        // Keep tracing mode on for retry
+        tracedDistance = 0f;
+        pointCount = 0;
+        if (traceLine != null)
+            traceLine.positionCount = 0;
+        Debug.Log("🔁 Reset tracing path.");
     }
 }
