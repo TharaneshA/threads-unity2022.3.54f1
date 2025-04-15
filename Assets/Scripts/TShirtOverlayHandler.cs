@@ -4,46 +4,42 @@ using UnityEngine.EventSystems;
 
 public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
 {
-    public static bool IsTracingNow = false; // 🔒 Used by DraggableFabric to block dragging
+    public static bool IsTracingNow = false;
 
     public GameObject overlayPrefab;
     public Vector2 overlaySize = new Vector2(300f, 300f);
     public Sprite tShirtFinalSprite;
 
     private GameObject overlayInstance;
+    private PolygonCollider2D outlineCollider;
     private bool isTracingActive = false;
-    private float traceProgress = 0f;
-    private bool isFabricDraggable = true;
-    private bool outlineSpawned = false;
     private bool mouseHeld = false;
+
+    private float totalTraceTime = 0f;
+    private float insideOutlineTime = 0f;
+
+    private bool outlineSpawned = false;
 
     private void Start()
     {
         if (overlayPrefab == null)
         {
-            Debug.LogError("❌ Overlay prefab is not assigned!");
+            Debug.LogError("❌ Overlay prefab not assigned!");
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (ScissorsButtonHandler.IsScissorsCursorActive)
+        if (ScissorsButtonHandler.IsScissorsCursorActive && !outlineSpawned)
         {
-            if (!outlineSpawned)
-            {
-                Debug.Log("✂️ First scissor click - locking fabric and showing outline.");
-                ShowOverlay();
-            }
+            Debug.Log("✂️ First scissor click - locking fabric and showing outline.");
+            ShowOverlay();
         }
     }
 
     private void ShowOverlay()
     {
-        if (overlayInstance != null)
-        {
-            Debug.LogWarning("⚠️ Overlay already active.");
-            return;
-        }
+        if (overlayInstance != null) return;
 
         overlayInstance = Instantiate(overlayPrefab, transform);
         RectTransform rt = overlayInstance.GetComponent<RectTransform>();
@@ -53,46 +49,71 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
             rt.anchoredPosition = Vector2.zero;
         }
 
+        outlineCollider = overlayInstance.GetComponent<PolygonCollider2D>();
+        if (outlineCollider == null)
+        {
+            Debug.LogError("❌ PolygonCollider2D missing from outline prefab.");
+        }
+
         isTracingActive = true;
         IsTracingNow = true;
-        isFabricDraggable = false;
         outlineSpawned = true;
-        Debug.Log("✅ Overlay spawned and tracing activated.");
+
+        Debug.Log("✅ Overlay & tracing mode activated.");
     }
 
     private void Update()
     {
-        if (isTracingActive && overlayInstance != null)
+        if (!isTracingActive || outlineCollider == null) return;
+
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                mouseHeld = true;
-                Debug.Log("✏️ Tracing started...");
-            }
+            mouseHeld = true;
+            Debug.Log("🖱️ Tracing started...");
+        }
 
-            if (mouseHeld && Input.GetMouseButton(0))
-            {
-                TraceFabricOutline();
-            }
+        if (mouseHeld && Input.GetMouseButton(0))
+        {
+            TrackTracingAccuracy();
+        }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                mouseHeld = false;
-                Debug.Log("🛑 Mouse released. Stopping tracing input.");
-            }
+        if (Input.GetMouseButtonUp(0))
+        {
+            mouseHeld = false;
+            Debug.Log("🛑 Mouse released. Accuracy check incoming.");
+            CheckTracingResult();
         }
     }
 
-    private void TraceFabricOutline()
+    private void TrackTracingAccuracy()
     {
-        traceProgress += Time.deltaTime * 10f;
+        totalTraceTime += Time.deltaTime;
 
-        // Here, in the future, we can check if cursor is within polygon collider
-        // for a more accurate tracing simulation
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-        if (traceProgress >= 60f)
-        {
+        if (outlineCollider.OverlapPoint(mousePos))
+        {   
+            
+            insideOutlineTime += Time.deltaTime;
+        }
+    }
+
+    private void CheckTracingResult()
+    {
+        if (totalTraceTime <= 0f) return;
+
+        float accuracy = insideOutlineTime / totalTraceTime;
+        Debug.Log($"📊 Tracing Accuracy: {accuracy:P1}");
+
+        if (accuracy >= 0.0f)
+        {   
+            Debug.Log("✅ Accuracy sufficient, completing tracing.");
             CompleteTracing();
+        }
+        else
+        {   
+            Debug.LogWarning("❌ Tracing accuracy too low. Try again.");
+            ResetTracing();
         }
     }
 
@@ -110,15 +131,19 @@ public class TShirtOverlayHandler : MonoBehaviour, IPointerClickHandler
         if (fabricImage != null && tShirtFinalSprite != null)
         {
             fabricImage.sprite = tShirtFinalSprite;
-            Debug.Log("🎉 T-shirt fabric traced successfully!");
+            Debug.Log("🎉 T-shirt updated after accurate trace.");
         }
 
-        isFabricDraggable = true; // Now fabric can be dragged again
-        Debug.Log("✅ Tracing completed. Fabric unlocked.");
+        // Optionally reset for future tries
+        totalTraceTime = 0f;
+        insideOutlineTime = 0f;
     }
 
-    public bool IsFabricDraggable()
+    private void ResetTracing()
     {
-        return isFabricDraggable;
+        // Reset stats
+        totalTraceTime = 0f;
+        insideOutlineTime = 0f;
+        // Keep tracing mode on for retry
     }
 }
