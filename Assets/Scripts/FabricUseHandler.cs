@@ -122,22 +122,30 @@ public class FabricUseHandler : MonoBehaviour
     }
 
     public void OnTracingComplete()
+{
+    if (currentFabricInstance == null || tshirtPrefab == null) return;
+
+    Destroy(currentFabricInstance);
+
+    GameObject tshirt = Instantiate(tshirtPrefab, dropZone.transform);
+    RectTransform tshirtRT = tshirt.GetComponent<RectTransform>();
+
+    if (tshirtRT != null && dropZoneRect != null)
     {
-        if (currentFabricInstance == null || tshirtPrefab == null) return;
-
-        Destroy(currentFabricInstance);
-
-        GameObject tshirt = Instantiate(tshirtPrefab, dropZone.transform);
-        RectTransform tshirtRT = tshirt.GetComponent<RectTransform>();
-
-        if (tshirtRT != null && dropZoneRect != null)
-        {
-            tshirtRT.anchoredPosition = Vector2.zero;
-            tshirtRT.SetAsLastSibling();
-        }
-
-        Debug.Log("👕 Final T-shirt prefab spawned.");
+        tshirtRT.anchoredPosition = Vector2.zero;
+        tshirtRT.SetAsLastSibling();
     }
+
+    // Add DraggableFabric component if it doesn't already have one
+    if (tshirt.GetComponent<DraggableFabric>() == null)
+    {
+        DraggableFabric draggable = tshirt.AddComponent<DraggableFabric>();
+        draggable.SetDragEnabled(true);
+        Debug.Log("🔄 Added draggable component to final t-shirt.");
+    }
+
+    Debug.Log("👕 Final T-shirt prefab spawned and is draggable.");
+}
 
     public void ReturnToDropZone()
     {
