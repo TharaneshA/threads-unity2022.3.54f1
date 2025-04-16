@@ -5,9 +5,9 @@ public class SceneManagerHandler : MonoBehaviour
 {
     public SceneFader sceneFader;
     // Go to Shop Scene
-    public void LoadShopScene()
+    public void LoadHallScene()
     {
-        sceneFader.FadeToScene("ShopScene");
+        sceneFader.FadeToScene("HallScene");
     }
 
     // Return to Workshop Scene
