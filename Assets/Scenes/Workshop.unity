@@ -825,8 +825,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1140825548}
   m_HandleRect: {fileID: 1140825547}
   m_Direction: 0
-  m_Value: 0.000003094495
-  m_Size: 0.33325237
+  m_Value: 0.0000030944955
+  m_Size: 0.3332524
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2294,7 +2294,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5663499738726598743, guid: e0c2abe433b3dfa469766d8490d3f42c, type: 3}
   m_PrefabInstance: {fileID: 1205475464}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &832626888
+--- !u!114 &832626893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3422,7 +3422,7 @@ PrefabInstance:
     - target: {fileID: 9137848175016125757, guid: e0c2abe433b3dfa469766d8490d3f42c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 832626888}
+      objectReference: {fileID: 832626893}
     - target: {fileID: 9137848175016125757, guid: e0c2abe433b3dfa469766d8490d3f42c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
@@ -3445,7 +3445,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8378789870492144645, guid: e0c2abe433b3dfa469766d8490d3f42c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 832626888}
+      addedObject: {fileID: 832626893}
   m_SourcePrefab: {fileID: 100100000, guid: e0c2abe433b3dfa469766d8490d3f42c, type: 3}
 --- !u!1 &1221389963
 GameObject:
