@@ -485,8 +485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c679e13312965740844b8d8126699ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fabricName: Wool
-  description: ' A soft, fluffy animal product obtained by shearing sheep.'
+  fabricName: Cotton
+  description: A soft, natural fiber obtained from the cotton plant. Fully breathable.
   isBiodegradable: 1
   infoPanelPrefab: {fileID: 3004698281661867374, guid: 0b6ec001d0ca44a499b97862fc6a8411, type: 3}
   triggerDistance: 25
@@ -1045,9 +1045,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c679e13312965740844b8d8126699ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fabricName: Cotton
-  description: A soft, natural fiber obtained from the cotton plant. Fully breathable.
-  isBiodegradable: 1
+  fabricName: Polyester
+  description: Slick, shiny and does not get wet
+  isBiodegradable: 0
   infoPanelPrefab: {fileID: 3004698281661867374, guid: 0b6ec001d0ca44a499b97862fc6a8411, type: 3}
   triggerDistance: 25
 --- !u!1 &925943032
@@ -1228,9 +1228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c679e13312965740844b8d8126699ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fabricName: Polyester
-  description: Slick, shiny, and suspiciously good at not getting wet.
-  isBiodegradable: 0
+  fabricName: Wool
+  description: ' A soft, fluffy animal product obtained by shearing sheep.'
+  isBiodegradable: 1
   infoPanelPrefab: {fileID: 3004698281661867374, guid: 0b6ec001d0ca44a499b97862fc6a8411, type: 3}
   triggerDistance: 25
 --- !u!1 &936489389
@@ -1504,9 +1504,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c679e13312965740844b8d8126699ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fabricName: Acrylic
-  description: Fuzzy, friendly, and low-key trying to impersonate wool.
-  isBiodegradable: 0
+  fabricName: Linen
+  description: Made from flax plant fibers, linen is durable, breathable, and decomposes
+    natural
+  isBiodegradable: 1
   infoPanelPrefab: {fileID: 3004698281661867374, guid: 0b6ec001d0ca44a499b97862fc6a8411, type: 3}
   triggerDistance: 25
 --- !u!1 &1515596161
@@ -1721,7 +1722,7 @@ MonoBehaviour:
   fabricName: Hemp
   description: "Smooth talker of the fabric world \u2014 feels fancy, looks expensive,
     and melts really fast"
-  isBiodegradable: 0
+  isBiodegradable: 1
   infoPanelPrefab: {fileID: 3004698281661867374, guid: 0b6ec001d0ca44a499b97862fc6a8411, type: 3}
   triggerDistance: 25
 --- !u!1 &1782415941
@@ -1858,10 +1859,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c679e13312965740844b8d8126699ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fabricName: Linen
-  description: Made from flax plant fibers, linen is durable, breathable, and decomposes
-    natural.
-  isBiodegradable: 1
+  fabricName: Acrylic
+  description: Fuzzy, friendly, and low-key trying to impersonate wool.
+  isBiodegradable: 0
   infoPanelPrefab: {fileID: 3004698281661867374, guid: 0b6ec001d0ca44a499b97862fc6a8411, type: 3}
   triggerDistance: 25
 --- !u!1 &1907073655

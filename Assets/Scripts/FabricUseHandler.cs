@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class FabricUseHandler : MonoBehaviour
 {
@@ -158,4 +160,29 @@ public class FabricUseHandler : MonoBehaviour
             Debug.Log("📍 Fabric snapped back to DropZone.");
         }
     }
+    public List<InventoryButtonHandler> useButtons = new List<InventoryButtonHandler>();
+
+    // Call this when fabric count changes
+    public void UpdateUseButtons()
+    {
+        foreach (var buttonHandler in useButtons)
+        {
+            buttonHandler.CheckAvailability();  // This method exists in InventoryButtonHandler
+        }
+        Debug.Log("🔁 Use buttons updated based on inventory.");
+    }
+
+    // Optional: Call this if you want to disable all buttons of a specific fabric type
+    public void DisableAllButtonsFor(string fabricName)
+    {
+        foreach (var buttonHandler in useButtons)
+        {
+            if (buttonHandler.fabricName == fabricName)
+            {
+                buttonHandler.GetComponent<Button>().interactable = false;
+                Debug.Log($"🚫 Disabled Use button for: {fabricName}");
+            }
+        }
+    }
 }
+

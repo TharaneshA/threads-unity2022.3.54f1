@@ -324,6 +324,7 @@ MonoBehaviour:
   dropZone: {fileID: 1475067222}
   overlayPrefab: {fileID: 840287184564758134, guid: d2e30b376dd65d441a31b5a230527a13, type: 3}
   tshirtPrefab: {fileID: 8056143639070378603, guid: 082ecc64e997a4346ac0a5061aa5f084, type: 3}
+  useButtons: []
 --- !u!224 &72312164
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2198,6 +2199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricSprite: {fileID: 21300000, guid: b9a588d93c6f62b42a607171370f5573, type: 3}
+  fabricName: Acrylic
 --- !u!1 &802351846 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8378789870492144645, guid: e0c2abe433b3dfa469766d8490d3f42c, type: 3}
@@ -2216,6 +2218,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricSprite: {fileID: 21300000, guid: c92a98af7e08a4544a8a9472bf97e11e, type: 3}
+  fabricName: Linen
 --- !u!1 &820485139
 GameObject:
   m_ObjectHideFlags: 0
@@ -2307,6 +2310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricSprite: {fileID: 21300000, guid: b8cfc843d5690de468fb8546280ca8b0, type: 3}
+  fabricName: Cotton
 --- !u!1 &832974935
 GameObject:
   m_ObjectHideFlags: 0
@@ -2407,6 +2411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricSprite: {fileID: 21300000, guid: 274eb1049a9a85943965f45809812f9a, type: 3}
+  fabricName: Polyester
 --- !u!1 &907222595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2614,6 +2619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricSprite: {fileID: 21300000, guid: f00e1d9f805885440a804ab1047f409a, type: 3}
+  fabricName: Wool
 --- !u!1 &990941853
 GameObject:
   m_ObjectHideFlags: 0
@@ -4104,6 +4110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fabricSprite: {fileID: 21300000, guid: aea2f3be727a71a4b896c0617acb4fa2, type: 3}
+  fabricName: Hemp
 --- !u!1 &1521281452
 GameObject:
   m_ObjectHideFlags: 0

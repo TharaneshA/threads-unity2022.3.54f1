@@ -18,7 +18,7 @@ public class SceneFader : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+          //  Destroy(gameObject);
         }
     }
 
