@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 
-public class FabricInfoUI : MonoBehaviour
+public class FabricInfo : MonoBehaviour
 {
     [Header("Fabric Details")]
     public string fabricName;
