@@ -66,19 +66,33 @@ public class FabricInfo : MonoBehaviour
         panelShown = false;
     }
 
-    void OnBuyFabric()
+    void OnBuyFabric(){
+    if (isBiodegradable)
     {
-        if (isBiodegradable)
+        InventoryManager.AddFabric(fabricName);
+        HideInfoPanel();
+    }
+    else
+    {
+        TMP_Text warningText = currentInfoPanel.transform.Find("WarningText")?.GetComponent<TMP_Text>();
+
+        if (warningText != null)
         {
-            InventoryManager.AddFabric(fabricName);
+            warningText.text = "This fabric is not biodegradable!";
+            warningText.color = Color.red;
         }
         else
         {
+            // If no separate WarningText, fallback to description
             TMP_Text desc = currentInfoPanel.transform.Find("DescriptionText")?.GetComponent<TMP_Text>();
             if (desc != null)
-                desc.text += "\n\n⚠️ This fabric is not biodegradable. Choose a healthier alternative.";
+                desc.text += "\n\nThis fabric is not biodegradable!\nChoose a different fabric.";
+                desc.color = Color.red;
         }
 
-        HideInfoPanel();
+        // Optionally: don't hide panel immediately, let user see warning
+        // HideInfoPanel();  // Remove this line if you want panel to stay
     }
+}
+
 }
