@@ -542,7 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 537806061b81dfd46be0daf2727eab94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 500
+  moveSpeed: 700
   leftFacingSprite: {fileID: 21300000, guid: e901396de2ad32c458801c3f4b0f2aa2, type: 3}
   rightFacingSprite: {fileID: 21300000, guid: 5c39bcb37c7743b4eb731f5b1e22251a, type: 3}
 --- !u!50 &417736511
