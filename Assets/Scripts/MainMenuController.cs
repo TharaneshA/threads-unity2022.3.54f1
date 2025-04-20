@@ -4,26 +4,25 @@ using UnityEngine.EventSystems;
 
 public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public float hoverScale = 1.2f; // Scale factor when hovering
-    public float animationSpeed = 10f; // Speed of the scale animation
+    public float hoverScale = 1.2f;
+    public float animationSpeed = 10f;
     private Vector3 originalScale;
 
     void Start()
     {
-        // Store original scale of the button
         originalScale = transform.localScale;
     }
 
+    // 🔁 Replace SceneFader with direct scene load
     public void StartGame()
     {
-        SceneFader.instance.FadeToScene("Workshop"); // ✅ Load Workshop.unity
+        SceneManager.LoadScene("Workshop");  // Replace with your Workshop scene name
     }
 
     public void ShowCredits()
     {
-        SceneFader.instance.FadeToScene("Credits"); // ✅ Optional Credits scene
+        SceneManager.LoadScene("Credits");  // Replace with your Credits scene name
     }
-
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -31,14 +30,12 @@ public class MainMenuController : MonoBehaviour, IPointerEnterHandler, IPointerE
         StartCoroutine(ScaleButton(transform, originalScale * hoverScale, 0.1f));
     }
 
-    // Called when mouse exits the button
     public void OnPointerExit(PointerEventData eventData)
     {
         StopAllCoroutines();
         StartCoroutine(ScaleButton(transform, originalScale, 0.1f));
     }
 
-    // Coroutine to smoothly scale button
     private System.Collections.IEnumerator ScaleButton(Transform button, Vector3 targetScale, float duration)
     {
         Vector3 currentScale = button.localScale;
