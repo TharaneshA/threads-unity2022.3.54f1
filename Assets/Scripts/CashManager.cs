@@ -5,14 +5,19 @@ public class CashManager : MonoBehaviour
 {
     public static CashManager instance;
     public TextMeshProUGUI cashText;
-    private int currentCash = 0;
+    private int currentCash = 30;
 
     private void Awake()
     {
         if (instance == null)
+        {
             instance = this;
+            DontDestroyOnLoad(gameObject); // ✅ Persist between scenes
+        }
         else
-            Destroy(gameObject);
+        {
+            Destroy(gameObject); // ✅ Prevent duplicates
+        }
     }
 
     private void Start()
@@ -26,8 +31,9 @@ public class CashManager : MonoBehaviour
         UpdateCashUI();
     }
 
-    private void UpdateCashUI()
+    public void UpdateCashUI()
     {
-        cashText.text = "$" + currentCash.ToString();
+        if (cashText != null)
+            cashText.text = "$" + currentCash.ToString();
     }
 }
