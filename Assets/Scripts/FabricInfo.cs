@@ -66,7 +66,8 @@ public class FabricInfo : MonoBehaviour
         panelShown = false;
     }
 
-    void OnBuyFabric(){
+    void OnBuyFabric()
+{
     if (isBiodegradable)
     {
         InventoryManager.AddFabric(fabricName);
@@ -74,25 +75,31 @@ public class FabricInfo : MonoBehaviour
     }
     else
     {
+        // Try to show warning in WarningText first
         TMP_Text warningText = currentInfoPanel.transform.Find("WarningText")?.GetComponent<TMP_Text>();
-
         if (warningText != null)
         {
-            warningText.text = "This fabric is not biodegradable!";
+            warningText.text = "This fabric is not biodegradable! $5 has been deducted.";
             warningText.color = Color.red;
         }
         else
         {
-            // If no separate WarningText, fallback to description
+            // Fallback to updating DescriptionText
             TMP_Text desc = currentInfoPanel.transform.Find("DescriptionText")?.GetComponent<TMP_Text>();
             if (desc != null)
-                desc.text += "\n\nThis fabric is not biodegradable!\nChoose a different fabric.";
+            {
+                desc.text += "\n\nThis fabric is not biodegradable!\n$5 has been deducted.";
                 desc.color = Color.red;
+            }
         }
 
-        // Optionally: don't hide panel immediately, let user see warning
-        // HideInfoPanel();  // Remove this line if you want panel to stay
+        // Deduct cash
+        if (CashManager.instance != null)
+        {
+            CashManager.instance.DeductCash(5);
+        }
     }
 }
+
 
 }
