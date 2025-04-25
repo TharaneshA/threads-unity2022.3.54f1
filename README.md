@@ -1,4 +1,4 @@
-# Alter Threads
+# Altered Threads
 
 A 2D educational game about sustainable fashion, recycling, and environmental awareness.
 
